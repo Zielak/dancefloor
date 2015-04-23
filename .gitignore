@@ -1,0 +1,6 @@
+/bin/*
+*.dmp
+*.sublime-workspace
+.gitattributes
+*.log
+desktop.ini
