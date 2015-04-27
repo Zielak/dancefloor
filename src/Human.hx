@@ -1,4 +1,7 @@
-package;
+package ;
+
+import luxe.options.VisualOptions;
+import luxe.utils.Maths;
 
 class Human extends Actor
 {
@@ -8,7 +11,7 @@ class Human extends Actor
     public var persona:Map<Persona, Dynamic>;
 
     // TODO: short-term memory of last events.
-    public var memory:Array<Event>;
+    // public var memory:Array<Event>;
 
 
 
@@ -18,14 +21,28 @@ class Human extends Actor
     @:isVar public var orientation  (get, null):Orientation;
     @:isVar public var status       (get, null):Status;
 
+    override public function new( _options:VisualOptions )
+    {
+        super(_options);
+
+        age = Maths.random_float(18, 35);
+        sex = ( Maths.random_int(0,1) == 0 ) ? Male : Female;
+        orientation = Heterosexual;
+        status = Single;
+
+    }
+
     override function init()
     {
 
-        persona = new Map<String, Dynamic>();
+        persona = new Map<Persona, Dynamic>();
 
         add(new human.Thirst());
         add(new human.Hunger());
         add(new human.Intoxication());
+
+
+        add(new components.Appearance());
 
     }
 
