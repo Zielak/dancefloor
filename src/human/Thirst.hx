@@ -2,7 +2,7 @@ package human;
 
 import luxe.options.ComponentOptions;
 
-class Thirst extends Components
+class Thirst extends Component
 {
 
     var value:Float;
