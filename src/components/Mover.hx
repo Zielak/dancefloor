@@ -15,14 +15,13 @@ class Mover extends Component
 
     override function onadded()
     {
-        // trace('Mover.onadded() - "${this.name}"');
         super.onadded();
 
         if(actor == null) {
             throw "Mover belongs on an Actor instance";
         } //Actor test
 
-        Director.physics.add(actor);
+        Main.physics.add(actor);
 
         actor.add_mover(this);
     }
@@ -31,7 +30,7 @@ class Mover extends Component
 
     override function onremoved()
     {
-        Director.physics.remove(actor);
+        Main.physics.remove(actor);
         actor.remove_mover(this);
 
         super.onremoved();

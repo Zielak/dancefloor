@@ -44,7 +44,7 @@ class Actor extends Visual
         _lowest         = new Vector();
 
         velocity        = new Vector();
-        acceleration    = Director.physics.gravity;
+        acceleration    = Main.physics.gravity;
         force           = new Vector();
 
         realPos = new Vector();
