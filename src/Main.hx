@@ -1,5 +1,6 @@
 
 import luxe.Input;
+import luxe.utils.Maths;
 
 class Main extends luxe.Game {
 
@@ -9,13 +10,7 @@ class Main extends luxe.Game {
 
         physics = new Physics();
 
-        var guy:Actor = new Actor({
-            pos: Luxe.screen.mid.clone(),
-            geometry: Luxe.draw.box({
-                x:0, y:0, w:30, h:80,
-            }),
-        });
-        guy.add( new components.Appearance() );
+        spawn_people();
 
     } //ready
 
@@ -31,5 +26,37 @@ class Main extends luxe.Game {
 
     } //update
 
+
+
+
+
+
+
+
+
+
+
+
+    function spawn_people()
+    {
+        for( i in 0...30 )
+        {
+            spawn_guy();
+        }
+    }
+
+    function spawn_guy()
+    {
+        var _pos = Luxe.screen.mid.clone();
+        _pos.x += Maths.random_float(-200, 200);
+        _pos.y += Maths.random_float(-100, 100);
+
+        var guy:Human = new Human({
+            pos: _pos,
+            geometry: Luxe.draw.box({
+                x:0, y:0, w:30, h:80,
+            }),
+        });
+    }    
 
 } //Main

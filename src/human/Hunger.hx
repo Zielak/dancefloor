@@ -7,7 +7,7 @@ class Hunger extends Component
 
     var value:Float;
 
-    override function new(_options:ComponentOptions)
+    override public function new()
     {
         super({name:'hunger'});
     }
@@ -21,6 +21,8 @@ class Hunger extends Component
 
     override function onadded()
     {
+        super.onadded();
+        
         value = 0;
     }
 

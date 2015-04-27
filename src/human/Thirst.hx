@@ -7,7 +7,7 @@ class Thirst extends Component
 
     var value:Float;
 
-    override function new(_options:ComponentOptions)
+    override public function new()
     {
         super({name:'thirst'});
     }
@@ -21,6 +21,8 @@ class Thirst extends Component
 
     override function onadded()
     {
+        super.onadded();
+        
         value = 0;
     }
 

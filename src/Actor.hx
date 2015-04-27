@@ -73,6 +73,8 @@ class Actor extends Visual
         pos.y = Math.round(pos.y);
         pos.z = Math.round(pos.z);
 
+        depth = realPos.y;
+
         updateGeometryHeight();
     }
 

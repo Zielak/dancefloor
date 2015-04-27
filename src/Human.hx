@@ -16,10 +16,10 @@ class Human extends Actor
 
 
 
-    @:isVar public var age          (get, null):Float;
-    @:isVar public var sex          (get, null):Sex;
-    @:isVar public var orientation  (get, null):Orientation;
-    @:isVar public var status       (get, null):Status;
+    @:isVar public var age          (default, null):Float;
+    @:isVar public var sex          (default, null):Sex;
+    @:isVar public var orientation  (default, null):Orientation;
+    @:isVar public var status       (default, null):Status;
 
     override public function new( _options:VisualOptions )
     {

@@ -15,13 +15,15 @@ class Appearance extends Component
         colors = new Array<Color>();
 
         var h:Float = Maths.random_float(0,360);
-        var s:Float = Maths.random_float(0.5, 1);
-        var l:Float = Maths.random_float(0.5, 1);
+        var s:Float = Maths.random_float(0.7, 1);
+        var l:Float = Maths.random_float(0.45, 0.85);
 
         for( i in 0...4 )
         {
             colors.push( new Color().fromColorHSL( new ColorHSL(h,s,l) ) );
-            h += 10;
+            h += Maths.random_int(10,30);
+            s += Maths.random_float(-0.1,0.1);
+            l += Maths.random_float(-0.1,0.1);
         }
 
         actor.geometry.vertices[0].color = colors[0];
