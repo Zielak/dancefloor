@@ -28,8 +28,9 @@ class Physics extends PhysicsEngine
     // Negative or positive?
     var lastDifferencePositive:Bool = false;
 
-    public override function init()
+    public override function new()
     {
+        super();
 
         actors = new Array<Actor>();
 

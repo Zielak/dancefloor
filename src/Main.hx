@@ -39,7 +39,7 @@ class Main extends luxe.Game {
 
     function spawn_people()
     {
-        for( i in 0...30 )
+        for( i in 0...1 )
         {
             spawn_guy();
         }

@@ -1,5 +1,6 @@
 package ;
 
+import luxe.options.VisualOptions;
 import luxe.Visual;
 import luxe.Color;
 import luxe.Vector;
@@ -37,6 +38,13 @@ class Actor extends Visual
     var _current_geom:Vector;
     var _lowest:Vector;
 
+    override public function new(_options:VisualOptions)
+    {
+        super(_options);
+
+        movers = new Array<Mover>();
+    }
+
     override function init():Void
     {
         _zoffset        = new Vector();
@@ -50,7 +58,6 @@ class Actor extends Visual
         realPos = new Vector();
         realPos.copy_from(pos);
 
-        movers = new Array<Mover>();
 
         // lastPos = new Vector();
         // lastPos.copy_from(realPos);

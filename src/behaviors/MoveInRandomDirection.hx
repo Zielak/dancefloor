@@ -36,11 +36,13 @@ class MoveInRandomDirection extends Behavior
         angle = Math.random()*360;
 
         actor.events.fire('move.start', {angle: angle} );
+        // trace('move.start');
     }
 
     override public function onTerminate(context:AIContext, status:Status)
     {
         actor.events.fire('move.stop');
+        // trace('move.stop');
     }
 
     override public function update(_, dt:Float)

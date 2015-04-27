@@ -42,6 +42,11 @@ class Human extends Actor
         add(new human.Intoxication());
 
 
+        add(new components.AIController({name: 'controller'}));
+        add(new components.InputAI({name: 'input'}));
+
+        add(new components.MoverWalking({}));
+
         add(new components.Appearance());
 
     }
