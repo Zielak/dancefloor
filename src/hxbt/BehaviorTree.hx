@@ -12,7 +12,7 @@ class BehaviorTree
 	public var period(default, default) : Float;
 	
 	//	Root of the behavior tree.
-	private var m_tree : Behavior;
+	public var root : Behavior;
 	
 	//	The context contains all the data needed to run
 	//	the different behaviors. Also called blackboard in some cases.
@@ -29,9 +29,9 @@ class BehaviorTree
 		m_counter = this.period;
 	}
 	
-	public function setRoot(root : Behavior) : Void
+	public function setRoot(_root : Behavior) : Void
 	{
-		m_tree = root;
+		root = _root;
 	}
 	
 	public function setContext(context : Dynamic) : Void
@@ -45,9 +45,9 @@ class BehaviorTree
 		while (m_counter <= 0)
 		{
 			m_counter += this.period;
-			if (m_tree != null)
+			if (root != null)
 			{
-				m_tree.tick(m_context, this.period);
+				root.tick(m_context, this.period);
 			}
 		}
 	}

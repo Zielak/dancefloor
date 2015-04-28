@@ -6,7 +6,7 @@ package hxbt;
  */
 class Composite extends Behavior
 {
-	private var m_children : Array<Behavior>;
+	public var m_children : Array<Behavior>;
 	
 	
 	public function new() 
