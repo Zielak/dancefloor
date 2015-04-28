@@ -32,7 +32,6 @@ class InputAI extends Component
         });
         entity.events.listen('move.stop', function(e:InputAIEvent){
             forcedAngle = -1;
-                // trace('move.stop: ${e}');
         });
 
         angle = 0;

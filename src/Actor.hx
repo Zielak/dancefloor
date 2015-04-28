@@ -40,13 +40,12 @@ class Actor extends Visual
 
     override public function new(_options:VisualOptions)
     {
+        realPos = _options.pos;
+
         super(_options);
 
         movers = new Array<Mover>();
-    }
 
-    override function init():Void
-    {
         _zoffset        = new Vector();
         _current_geom   = new Vector();
         _lowest         = new Vector();
@@ -54,10 +53,11 @@ class Actor extends Visual
         velocity        = new Vector();
         acceleration    = Main.physics.gravity;
         force           = new Vector();
+    }
 
-        realPos = new Vector();
+    override function init():Void
+    {
         realPos.copy_from(pos);
-
 
         // lastPos = new Vector();
         // lastPos.copy_from(realPos);

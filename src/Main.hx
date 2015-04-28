@@ -1,5 +1,6 @@
 
 import luxe.Input;
+import luxe.Rectangle;
 import luxe.utils.Maths;
 
 class Main extends luxe.Game {
@@ -8,7 +9,7 @@ class Main extends luxe.Game {
 
     override function ready() {
 
-        physics = new Physics();
+        physics = Luxe.physics.add_engine(Physics);
 
         spawn_people();
 
@@ -39,7 +40,7 @@ class Main extends luxe.Game {
 
     function spawn_people()
     {
-        for( i in 0...1 )
+        for( i in 0...10 )
         {
             spawn_guy();
         }
@@ -48,15 +49,15 @@ class Main extends luxe.Game {
     function spawn_guy()
     {
         var _pos = Luxe.screen.mid.clone();
-        _pos.x += Maths.random_float(-200, 200);
+        _pos.x += Maths.random_float(-100, 100);
         _pos.y += Maths.random_float(-100, 100);
 
-        var guy:Human = new Human({
-            pos: _pos,
-            geometry: Luxe.draw.box({
-                x:0, y:0, w:30, h:80,
-            }),
-        });
+        var guy:Human = new Human({pos: _pos});
+        guy.add( new components.Bounds({
+            bounds:new Rectangle(
+                30, 30, Luxe.screen.w-30, Luxe.screen.h-30
+            )})
+        );
     }    
 
 } //Main

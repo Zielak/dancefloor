@@ -2,6 +2,7 @@ package ;
 
 import luxe.options.VisualOptions;
 import luxe.utils.Maths;
+import luxe.Vector;
 
 class Human extends Actor
 {
@@ -21,15 +22,31 @@ class Human extends Actor
     @:isVar public var orientation  (default, null):Orientation;
     @:isVar public var status       (default, null):Status;
 
-    override public function new( _options:VisualOptions )
+    override public function new( _options:HumanOptions )
     {
+        if( _options.geometry == null ){
+            var geom = Luxe.draw.box({
+                x:0, y:0, w:12, h:30,
+            });
+            geom.translate(new Vector(-6, -15));
+            _options.geometry = geom;
+        }
         super(_options);
 
-        age = Maths.random_float(18, 35);
-        sex = ( Maths.random_int(0,1) == 0 ) ? Male : Female;
-        orientation = Heterosexual;
-        status = Single;
+        age = applyOptional( _options.age, Maths.random_float(18, 35) );
+        sex = applyOptional( _options.sex, (Maths.random_int(0,1) == 0) ? Male : Female);
+        orientation = applyOptional( _options.orientation, Heterosexual );
+        status = applyOptional( _options.status, Single );
 
+    }
+
+    inline function applyOptional<T>(option:T, def:T):T
+    {
+        if(option == null){
+            return def;
+        }else{
+            return option;
+        }
     }
 
     override function init()
@@ -53,7 +70,7 @@ class Human extends Actor
 
     override function update(dt:Float)
     {
-
+        super.update(dt);
         
 
     }
@@ -81,4 +98,14 @@ enum Persona {
     IntroExtroVert;
     BraveShy;
     PeacefulAggressive;
+}
+
+typedef HumanOptions = {
+    > VisualOptions,
+
+    @:optional var age:Float;
+    @:optional var sex:Sex;
+    @:optional var orientation:Orientation;
+    @:optional var status:Status;
+    @:optional var persona:Persona;
 }

@@ -19,9 +19,12 @@ class AIController extends Component
         seq = new Sequence();
         seq.add(new behaviors.Wait({time: 0.5, randomizeTime: 0.5}));
         seq.add(new behaviors.MoveInRandomDirection({time: 1, randomizeTime: 1}));
+        seq.add(new behaviors.Dance({time: 2, randomizeTime: 1}));
 
         m_tree.setRoot(seq);
         m_tree.setContext({actor: cast(entity, Actor)});
+
+        BTVisual.watch(m_tree);
     }
 
     override function onremoved()
