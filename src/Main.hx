@@ -58,6 +58,8 @@ class Main extends luxe.Game {
                 30, 30, Luxe.screen.w-30, Luxe.screen.h-30
             )})
         );
+
+        HumanVisual.watch(guy);
     }    
 
 } //Main

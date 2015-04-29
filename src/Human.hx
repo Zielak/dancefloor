@@ -17,6 +17,7 @@ class Human extends Actor
 
 
 
+    @:isVar public var realname     (default, null):String;
     @:isVar public var age          (default, null):Float;
     @:isVar public var sex          (default, null):Sex;
     @:isVar public var orientation  (default, null):Orientation;
@@ -33,6 +34,7 @@ class Human extends Actor
         }
         super(_options);
 
+        realname = applyOptional( _options.realname, 'Dummie');
         age = applyOptional( _options.age, Maths.random_float(18, 35) );
         sex = applyOptional( _options.sex, (Maths.random_int(0,1) == 0) ? Male : Female);
         orientation = applyOptional( _options.orientation, Heterosexual );
@@ -103,6 +105,7 @@ enum Persona {
 typedef HumanOptions = {
     > VisualOptions,
 
+    @:optional var realname:String;
     @:optional var age:Float;
     @:optional var sex:Sex;
     @:optional var orientation:Orientation;
