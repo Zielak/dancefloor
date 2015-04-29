@@ -1,11 +1,14 @@
 package human;
 
 import luxe.options.ComponentOptions;
+import luxe.utils.Maths;
+
+using utils.FloatUtil;
 
 class Intoxication extends Component
 {
 
-    var value:Float;
+    @:isVar public var value(default, null):Float;
 
     override public function new()
     {
@@ -24,14 +27,15 @@ class Intoxication extends Component
     {
         super.onadded();
         
-        value = 0;
+        value = Maths.random_float(0, 0.2);
     }
 
     override function update(dt:Float)
     {
 
-        value -= dt * 0.0011;
+        value -= dt * 0.011;
 
+        value = value.limit();
     }
 
 
