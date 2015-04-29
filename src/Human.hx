@@ -1,6 +1,7 @@
 package ;
 
 import luxe.options.VisualOptions;
+import luxe.Rectangle;
 import luxe.utils.Maths;
 import luxe.Vector;
 
@@ -14,8 +15,8 @@ class Human extends Actor
     // TODO: short-term memory of last events.
     // public var memory:Array<Event>;
 
-
-
+    var width:Float;
+    var height:Float;
 
     @:isVar public var realname     (default, null):String;
     @:isVar public var age          (default, null):Float;
@@ -25,9 +26,12 @@ class Human extends Actor
 
     override public function new( _options:HumanOptions )
     {
+        width = 12;
+        height = 30;
+
         if( _options.geometry == null ){
             var geom = Luxe.draw.box({
-                x:0, y:0, w:12, h:30,
+                x:0, y:0, w:width, h:height,
             });
             geom.translate(new Vector(-6, -15));
             _options.geometry = geom;
@@ -40,6 +44,12 @@ class Human extends Actor
         orientation = applyOptional( _options.orientation, Heterosexual );
         status = applyOptional( _options.status, Single );
 
+        if(_options.persona == null){
+            persona = new Map<Persona, Dynamic>();
+            persona.set(IntroExtroVert, Math.random());
+            persona.set(BraveShy, Math.random());
+            persona.set(PeacefulAggressive, Math.random());
+        }
     }
 
     inline function applyOptional<T>(option:T, def:T):T
@@ -67,6 +77,12 @@ class Human extends Actor
         add(new components.MoverWalking({}));
 
         add(new components.Appearance());
+
+
+        // Debugging
+
+        add(new components.HumanVisualSelector({bounds: new Rectangle(0,0,width, height)}));
+
 
     }
 
