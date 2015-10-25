@@ -2,14 +2,18 @@
 import luxe.Input;
 import luxe.Rectangle;
 import luxe.utils.Maths;
+import luxe.utils.Random;
 
 class Main extends luxe.Game {
 
     public static var physics:Physics;
+    public static var random:Random;
 
     override function ready() {
 
         physics = Luxe.physics.add_engine(Physics);
+
+        random = new Random(1);
 
         spawn_people();
 
@@ -49,8 +53,8 @@ class Main extends luxe.Game {
     function spawn_guy()
     {
         var _pos = Luxe.screen.mid.clone();
-        _pos.x += Maths.random_float(-100, 100);
-        _pos.y += Maths.random_float(-100, 100);
+        _pos.x += random.float(-100, 100);
+        _pos.y += random.float(-100, 100);
 
         var guy:Human = new Human({pos: _pos});
         guy.add( new components.Bounds({

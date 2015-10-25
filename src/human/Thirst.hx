@@ -26,7 +26,7 @@ class Thirst extends Component
     {
         super.onadded();
         
-        value = Maths.random_float(0, 0.2);
+        value = Main.random.float(0, 0.2);
     }
 
     override function update(dt:Float)

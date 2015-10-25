@@ -14,16 +14,16 @@ class Appearance extends Component
 
         colors = new Array<Color>();
 
-        var h:Float = Maths.random_float(0,360);
-        var s:Float = Maths.random_float(0.6, 1);
-        var l:Float = Maths.random_float(0.4, 0.85);
+        var h:Float = Main.random.float(0,360);
+        var s:Float = Main.random.float(0.6, 1);
+        var l:Float = Main.random.float(0.4, 0.85);
 
         for( i in 0...4 )
         {
             colors.push( new Color().fromColorHSL( new ColorHSL(h,s,l) ) );
-            h += Maths.random_int(10,40);
-            s += Maths.random_float(-0.1,0.1);
-            l += Maths.random_float(-0.1,0.1);
+            h += Main.random.int(10,40);
+            s += Main.random.float(-0.1,0.1);
+            l += Main.random.float(-0.1,0.1);
         }
 
         actor.geometry.vertices[0].color = colors[0];

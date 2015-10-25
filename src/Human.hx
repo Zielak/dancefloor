@@ -39,8 +39,8 @@ class Human extends Actor
         super(_options);
 
         realname = applyOptional( _options.realname, 'Dummie');
-        age = applyOptional( _options.age, Maths.random_float(18, 35) );
-        sex = applyOptional( _options.sex, (Maths.random_int(0,1) == 0) ? Male : Female);
+        age = applyOptional( _options.age, Main.random.float(18, 35) );
+        sex = applyOptional( _options.sex, (Main.random.int(0,1) == 0) ? Male : Female);
         orientation = applyOptional( _options.orientation, Heterosexual );
         status = applyOptional( _options.status, Single );
 

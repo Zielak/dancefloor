@@ -26,7 +26,7 @@ class Hunger extends Component
     {
         super.onadded();
         
-        value = Maths.random_float(0, 0.1);
+        value = Main.random.float(0, 0.1);
     }
 
     override function update(dt:Float)
