@@ -1,12 +1,12 @@
 package human;
 
-import human.Property;
+import human.HumanAttribute;
 import luxe.options.ComponentOptions;
 import luxe.utils.Maths;
 
 using utils.FloatUtil;
 
-class Thirst extends Property
+class Thirst extends HumanAttribute
 {
 
     override public function new()

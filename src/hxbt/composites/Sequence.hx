@@ -14,9 +14,10 @@ class Sequence extends Composite
 	private var m_currentIndex : Int;
 	
 	
-	public function new() 
+	public function new(_name:String = '[SQ]') 
 	{
 		super();
+        name = _name;
 	}
 	
 	override function onInitialize(context : Dynamic)

@@ -14,6 +14,8 @@ class Wait extends Behavior
     {
         super();
 
+        name = 'w8';
+
         if(Reflect.hasField(options, 'time')){
             time = options.time;
         }

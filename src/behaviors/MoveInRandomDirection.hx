@@ -18,6 +18,8 @@ class MoveInRandomDirection extends Behavior
     {
         super();
 
+        name = 'mR';
+
         if(Reflect.hasField(options, 'time')){
             time = options.time;
         }
@@ -35,8 +37,7 @@ class MoveInRandomDirection extends Behavior
 
         angle = Math.random()*360;
 
-        actor.events.fire('move.start', {angle: angle} );
-        // trace('move.start');
+        actor.events.fire('move.straight', {angle: angle} );
     }
 
     override public function onTerminate(context:AIContext, status:Status)

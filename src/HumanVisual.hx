@@ -23,7 +23,7 @@ class HumanVisual extends Entity
     public static inline var POINT_SIZE:Float = 14;
 
     public static inline var TEXT_W:Float = 150;
-    public static inline var TEXT_H:Float = 14;
+    public static inline var TEXT_H:Float = 150;
 
     public static inline var PADDING:Float = 3;
 
@@ -77,6 +77,7 @@ class HumanVisual extends Entity
             color: new Color().rgb(C_TEXT),
             batcher: batcher,
             text: 'HumanVisual',
+            parent: this,
         });
 
         Luxe.events.listen('human.watch', function(e:HumanVisualEvent){
@@ -104,29 +105,29 @@ class HumanVisual extends Entity
             value: function(){return guy.sex.getName();},
         }));
 
-        if(guy.has('hunger'))
-        fields.push(new HVField({
-            label: '- Hunger: ',
-            value: function(){
-                return Std.string( Math.round(guy.get('hunger').value*100)/100 );
-            },
-        }));
+        if(guy.has('attr_hunger'))
+            fields.push(new HVField({
+                label: '- Hunger: ',
+                value: function(){
+                    return Std.string( Math.round(guy.get('attr_hunger').value*100)/100 );
+                },
+            }));
 
-        if(guy.has('thirst'))
-        fields.push(new HVField({
-            label: '- Thirst: ',
-            value: function(){
-                return Std.string( Math.round(guy.get('thirst').value*100)/100 );
-            },
-        }));
+        if(guy.has('attr_thirst'))
+            fields.push(new HVField({
+                label: '- Thirst: ',
+                value: function(){
+                    return Std.string( Math.round(guy.get('attr_thirst').value*100)/100 );
+                },
+            }));
 
-        if(guy.has('intoxication'))
-        fields.push(new HVField({
-            label: '- Intox.: ',
-            value: function(){
-                return Std.string( Math.round(guy.get('intoxication').value*100)/100 );
-            },
-        }));
+        if(guy.has('attr_intoxication'))
+            fields.push(new HVField({
+                label: '- Intox.: ',
+                value: function(){
+                    return Std.string( Math.round(guy.get('attr_intoxication').value*100)/100 );
+                },
+            }));
 
         Luxe.timer.schedule(1/30, function(){
             refresh();

@@ -34,5 +34,5 @@ enum FixedComponentType
     controller;
     mover;
     collider;
-    property;
+    attribute;
 }

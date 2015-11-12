@@ -9,9 +9,10 @@ import hxbt.Behavior.Status;
  */
 class Parallel extends Composite
 {
-	public function new() 
+	public function new(_name:String = '[PA]') 
 	{
 		super();
+        name = _name;
 	}
 	
 	override function onInitialize(context : Dynamic)

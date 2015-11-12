@@ -14,6 +14,7 @@ class MoverWalking extends FixedComponent{
 
     override public function new(?_options:MoverWalkingOptions)
     {
+        if(_options == null) _options = {};
         super(_options);
 
         type = mover;

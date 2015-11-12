@@ -1,5 +1,7 @@
 package ;
 
+import FixedComponent.FixedComponentType;
+import human.HumanAttribute;
 import luxe.options.VisualOptions;
 import luxe.Rectangle;
 import luxe.utils.Maths;
@@ -24,14 +26,15 @@ class Human extends Actor
     @:isVar public var orientation  (default, null):Orientation;
     @:isVar public var status       (default, null):Status;
 
-    var human_properties:Array<human.Property>;
+    // Human attributes!
+    // public var attributes:Map<String, HumanAttribute>;
 
     override public function new( _options:HumanOptions )
     {
         width = 12;
         height = 30;
 
-        human_properties = new Array<human.Property>();
+        // attributes = new Map<String, HumanAttribute>();
 
         if( _options.geometry == null ){
             var geom = Luxe.draw.box({
@@ -65,43 +68,6 @@ class Human extends Actor
         }
     }
 
-    /**
-     * Tries to add human property component
-     * @param id Components ID
-     * @return  false if already exists, true if added
-     */
-    public function add_humanproperty(property:human.Property):Bool
-    {
-        // check if already in
-        var found:Int = human_properties.indexOf(property);
-
-        if(found != -1)
-        {
-            return false;
-        }
-        else
-        {
-            human_properties.push(property);
-            return true;
-        }
-    }
-
-    public function remove_humanproperty(property:human.Property):Bool
-    {
-        // check if already in
-        var found:Int = human_properties.indexOf(property);
-
-        if(found != -1)
-        {
-            human_properties.splice(found, 1);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     override function init()
     {
 
@@ -109,15 +75,15 @@ class Human extends Actor
 
         persona = new Map<Persona, Dynamic>();
 
-        add_humanproperty(new human.Thirst());
-        add_humanproperty(new human.Hunger());
-        add_humanproperty(new human.Intoxication());
+        add(new human.Thirst());
+        add(new human.Hunger());
+        add(new human.Intoxication());
 
 
         add(new components.AIController({name: 'controller'}));
         add(new components.InputAI({name: 'input'}));
 
-        add(new components.MoverWalking({}));
+        add(new components.MoverWalking());
 
         add(new components.Appearance());
 
@@ -131,7 +97,7 @@ class Human extends Actor
     {
         super.step(dt);
 
-        stepComponents(dt, property);
+        stepComponents(dt, attribute);
     }
 
 }

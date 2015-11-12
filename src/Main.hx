@@ -2,17 +2,24 @@
 import luxe.Color;
 import luxe.Input;
 import luxe.Rectangle;
+import luxe.Scene;
 import luxe.utils.Maths;
 import luxe.utils.Random;
 import luxe.Text;
+import luxe.Vector;
 
 class Main extends luxe.Game {
 
     public static var physics:Physics;
     public static var random:Random;
 
+    public static var areas_scene:Scene;
+
+    
     public var humanVisual:HumanVisual;
     public var btVisual:BTVisual;
+
+
 
     var tips_txt:Text;
 
@@ -21,8 +28,12 @@ class Main extends luxe.Game {
         physics = Luxe.physics.add_engine(Physics);
         random = new Random(1);
 
-        humanVisual = new HumanVisual();
-        btVisual = new BTVisual();
+        humanVisual = new HumanVisual({
+            pos: new Vector(0, 640),
+        });
+        btVisual = new BTVisual({
+            pos: new Vector(Luxe.screen.w/2, 640),
+        });
 
         spawn_people();
         spawn_areas();
@@ -85,7 +96,7 @@ class Main extends luxe.Game {
         var guy:Human = new Human({pos: _pos});
         guy.add( new components.Bounds({
             bounds:new Rectangle(
-                30, 30, Luxe.screen.w-30, Luxe.screen.h-30
+                30, 30, Luxe.screen.w-30, Luxe.screen.h-230
             )})
         );
 
@@ -95,8 +106,11 @@ class Main extends luxe.Game {
 
     function spawn_areas()
     {
+        areas_scene = new Scene('areas');
+
         var bar_area:Area = new Area({
-            bounds: new Rectangle(Luxe.screen.w/8*6, Luxe.screen.h/4, Luxe.screen.w/8, Luxe.screen.h/4*2)
+            bounds: new Rectangle(Luxe.screen.w/8*6, Luxe.screen.h/4, Luxe.screen.w/8, Luxe.screen.h/4*2),
+            scene: areas_scene,
         });
         bar_area.add(new area.BarArea({
             sells:[

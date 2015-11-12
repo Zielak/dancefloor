@@ -16,6 +16,8 @@ class Dance extends Behavior
     {
         super();
 
+        name = 'D';
+
         if(Reflect.hasField(options, 'time')){
             time = options.time;
         }

@@ -12,9 +12,10 @@ class Selector extends Composite
 	private var m_currentIndex : Int;
 	
 	
-	public function new() 
+	public function new(_name:String = '[SE]') 
 	{
 		super();
+        name = _name;
 	}
 	
 	override function onInitialize(context : Dynamic)

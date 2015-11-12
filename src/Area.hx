@@ -27,6 +27,27 @@ class Area extends Entity
         draw_area(_options);
     }
 
+
+    public function pick_random_point():Vector
+    {
+        var v:Vector = new Vector(0,0);
+
+        v.x = Main.random.float(bounds.x, bounds.x + bounds.w);
+        v.y = Main.random.float(bounds.y, bounds.y + bounds.h);
+
+        return v;
+    }
+
+
+
+
+
+
+
+
+
+// Internal
+
     function draw_area(_options)
     {
         v_rect = new Visual({

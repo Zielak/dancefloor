@@ -24,14 +24,24 @@ class InputAI extends FixedComponent
 
     var forcedAngle:Float;
 
+    var target:Vector;
+
     override function init()
     {
-        entity.events.listen('move.start', function(e:InputAIEvent){
+        entity.events.listen('move.straight', function(e:InputAIEvent){
             if(e.angle != null){
                 forcedAngle = e.angle;
-                // trace('move.start: ${e}');
             }
         });
+        entity.events.listen('move.to_area', function(e:InputAIEvent){
+            if(e.area != null){
+                // Pick random place in area
+                var target = e.area.pick_random_point();
+
+                forcedAngle = Math.atan2(target.y - actor.realPos.y, target.x - actor.realPos.x) * 180 / Math.PI;
+            }
+        });
+
         entity.events.listen('move.stop', function(e:InputAIEvent){
             forcedAngle = -1;
         });
@@ -124,6 +134,12 @@ typedef InputAIEvent = {
 
     // Optionally, we accept dpad-style 8dir, if angle isn't used
     @:optional var dir:Int;
+
+    // What area is our target
+    @:optional var area:Area;
+
+    // For some reason we chose a point
+    @:optional var point:Vector;
 
     // Which action should I press?
     @:optional var action:ActionEnum;

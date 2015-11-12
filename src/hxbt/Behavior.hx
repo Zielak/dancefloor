@@ -21,6 +21,8 @@ enum Status
 class Behavior
 {
 	
+	public var name:String = '-';
+
 	public var status(default, default) : Status = Status.INVALID;
 	
 	public function new() 
