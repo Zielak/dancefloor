@@ -1,4 +1,5 @@
 /bin/*
+/devlog/*
 *.dmp
 *.sublime-workspace
 .gitattributes
