@@ -24,16 +24,22 @@ class Bounds extends FixedComponent
     override public function step(dt:Float)
     {
         if(bounds != null){
-            if(actor.realPos.x > bounds.w){
-                actor.realPos.x = bounds.w;
-            }else if(actor.realPos.x < bounds.x){
-                actor.realPos.x = bounds.x;
+            if(actor.realPos.x + actor.velocity.x*dt > bounds.w)
+            {
+                actor.events.fire('bounds.hit', {normal: new Vector(-1, 0)});
+            }
+            else if(actor.realPos.x + actor.velocity.x*dt < bounds.x)
+            {
+                actor.events.fire('bounds.hit', {normal: new Vector(1, 0)});
             }
 
-            if(actor.realPos.y > bounds.h){
-                actor.realPos.y = bounds.h;
-            }else if(actor.realPos.y < bounds.y){
-                actor.realPos.y = bounds.y;
+            if(actor.realPos.y + actor.velocity.y*dt > bounds.h)
+            {
+                actor.events.fire('bounds.hit', {normal: new Vector(0, -1)});
+            }
+            else if(actor.realPos.y + actor.velocity.y*dt < bounds.y)
+            {
+                actor.events.fire('bounds.hit', {normal: new Vector(0, 1)});
             }
         }
     } // applyBounds
@@ -43,4 +49,8 @@ class Bounds extends FixedComponent
 
 typedef BoundsOptions = {
     var bounds:Rectangle;
+}
+
+typedef BoundsHitEvent = {
+    var normal:Vector;
 }

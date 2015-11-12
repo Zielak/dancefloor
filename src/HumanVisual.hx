@@ -68,6 +68,7 @@ class HumanVisual extends Entity
                 solid: true,
             }),
             color: new Color(1,0.2,0),
+            depth: 101,
         });
 
         text = new Text({
@@ -78,7 +79,7 @@ class HumanVisual extends Entity
             text: 'HumanVisual',
         });
 
-        Luxe.events.listen('HumanVisual.watch', function(e:HumanVisualEvent){
+        Luxe.events.listen('human.watch', function(e:HumanVisualEvent){
             watch(e.human);
         });
     }

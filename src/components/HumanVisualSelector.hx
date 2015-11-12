@@ -21,7 +21,7 @@ class HumanVisualSelector extends FixedComponent
     {
         if( bounds.point_inside(e.pos) )
         {
-            Luxe.events.fire('HumanVisual.watch', {human: cast(actor, Human)} );
+            Luxe.events.fire('human.watch', {human: cast(actor, Human)} );
         }
     }
 

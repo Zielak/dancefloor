@@ -1,5 +1,6 @@
 package components;
 
+import components.Bounds;
 import luxe.Input;
 import luxe.options.ComponentOptions;
 import luxe.Vector;
@@ -23,7 +24,7 @@ class InputAI extends FixedComponent
 
     var forcedAngle:Float;
 
-    override function init():Void
+    override function init()
     {
         entity.events.listen('move.start', function(e:InputAIEvent){
             if(e.angle != null){
@@ -34,13 +35,28 @@ class InputAI extends FixedComponent
         entity.events.listen('move.stop', function(e:InputAIEvent){
             forcedAngle = -1;
         });
+        entity.events.listen('bounds.hit', function(e:BoundsHitEvent){
+            if(e.normal.x > 0){
+                forcedAngle = 0;
+            }
+            if(e.normal.x < 0){
+                forcedAngle = 180;
+            }
+
+            if(e.normal.y > 0){
+                forcedAngle = 90;
+            }
+            if(e.normal.y < 0){
+                forcedAngle = 270;
+            }
+        });
 
         angle = 0;
         forcedAngle = -1;
 
     }
 
-    override public function step(dt:Float):Void
+    override public function step(dt:Float)
     {
         if(forcedAngle == -1) {
             updateKeys();

@@ -1,16 +1,19 @@
 package ;
 
+import components.AIController;
 import hxbt.Behavior;
 import hxbt.BehaviorTree;
 import hxbt.Composite;
 import luxe.Camera;
 import luxe.Color;
+import luxe.Entity;
 import luxe.options.VisualOptions;
 import luxe.Vector;
 import luxe.Visual;
 import phoenix.Batcher;
+import HumanVisual;
 
-class BTVisual
+class BTVisual extends Entity
 {
 
     public static inline var C_INVALID:Int = 0x000000;
@@ -24,29 +27,37 @@ class BTVisual
     public static inline var NODE_W:Float = 10;
     public static inline var NODE_H:Float = 10;
 
-    static var root:Composite;
+    var root:Composite;
 
-    static var batcher:Batcher;
-    static var camera:Camera;
+    // static var batcher:Batcher;
+    // static var camera:Camera;
 
-    public static function init()
+    override function init()
     {
-        camera = new Camera({ name : 'btcamera' });
-        batcher = Luxe.renderer.create_batcher({
-            name:'btviewport',
-            camera:camera.view
+        // camera = new Camera({ name : 'btcamera' });
+        // batcher = Luxe.renderer.create_batcher({
+        //     name:'btviewport',
+        //     camera:camera.view
+        // });
+        // batcher.layer = 100;
+
+        Luxe.events.listen('human.watch', function(e:HumanVisualEvent){
+            var ctrl:AIController = cast e.human.get('controller');
+            if(ctrl != null)
+            {
+                watch(ctrl.m_tree);
+            }
         });
-        batcher.layer = 10;
     }
 
-    public static function watch(behavior_tree:BehaviorTree)
+    function watch(behavior_tree:BehaviorTree)
     {
         root = cast behavior_tree.root;
 
-        BTVisual.refresh();
+        refresh();
     }
 
-    public static function refresh()
+    function refresh()
     {
         var _x:Float;
         for(i in 0...root.m_children.length)
@@ -59,7 +70,7 @@ class BTVisual
                     _x+Luxe.screen.mid.x,
                     100+Luxe.screen.mid.y
                 ),
-                batcher: batcher,
+                // batcher: batcher,
             });
 
         }
@@ -88,7 +99,8 @@ class BTNode extends Visual
                 x:0, y:0, w:BTVisual.NODE_W, h:BTVisual.NODE_H,
             }),
             color: new Color().rgb(BTVisual.C_INVALID),
-            batcher: _options.batcher,
+            depth: 50,
+            // batcher: _options.batcher,
         });
     }
 
@@ -129,5 +141,5 @@ class BTNode extends Visual
 typedef BTNodeOptions = {
     var node:Behavior;
     var pos:Vector;
-    var batcher:Batcher;
+    @:optional var batcher:Batcher;
 }

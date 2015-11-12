@@ -7,7 +7,7 @@ import hxbt.composites.Sequence;
 class AIController extends FixedComponent
 {
 
-    var m_tree:BehaviorTree;
+    public var m_tree:BehaviorTree;
 
     var seq:Sequence;
 
@@ -25,7 +25,7 @@ class AIController extends FixedComponent
         m_tree.setRoot(seq);
         m_tree.setContext({actor: cast(entity, Actor)});
 
-        BTVisual.watch(m_tree);
+        Luxe.events.fire( 'human.watch', {human: cast(actor, Human)} );
     }
 
     override function onremoved()

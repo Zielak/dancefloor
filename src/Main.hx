@@ -12,6 +12,7 @@ class Main extends luxe.Game {
     public static var random:Random;
 
     public var humanVisual:HumanVisual;
+    public var btVisual:BTVisual;
 
     var tips_txt:Text;
 
@@ -21,8 +22,10 @@ class Main extends luxe.Game {
         random = new Random(1);
 
         humanVisual = new HumanVisual();
+        btVisual = new BTVisual();
 
         spawn_people();
+        spawn_areas();
 
         tips_txt = new Text({
             bounds: new Rectangle(10, Luxe.screen.h-20, Luxe.screen.w, 20),
@@ -67,7 +70,7 @@ class Main extends luxe.Game {
 
     function spawn_people()
     {
-        for( i in 0...10 )
+        for( i in 0...100 )
         {
             spawn_guy();
         }
@@ -86,7 +89,22 @@ class Main extends luxe.Game {
             )})
         );
 
-        Luxe.events.fire( 'HumanVisual.watch', {human: guy} );
-    }    
+        Luxe.events.fire( 'human.watch', {human: guy} );
+    }
+
+
+    function spawn_areas()
+    {
+        var bar_area:Area = new Area({
+            bounds: new Rectangle(Luxe.screen.w/8*6, Luxe.screen.h/4, Luxe.screen.w/8, Luxe.screen.h/4*2)
+        });
+        bar_area.add(new area.BarArea({
+            sells:[
+                food => true,
+                drink => true,
+                liquor => true,
+            ]
+        }));
+    }
 
 } //Main
