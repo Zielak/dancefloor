@@ -24,10 +24,14 @@ class Human extends Actor
     @:isVar public var orientation  (default, null):Orientation;
     @:isVar public var status       (default, null):Status;
 
+    var human_properties:Array<human.Property>;
+
     override public function new( _options:HumanOptions )
     {
         width = 12;
         height = 30;
+
+        human_properties = new Array<human.Property>();
 
         if( _options.geometry == null ){
             var geom = Luxe.draw.box({
@@ -61,14 +65,53 @@ class Human extends Actor
         }
     }
 
+    /**
+     * Tries to add human property component
+     * @param id Components ID
+     * @return  false if already exists, true if added
+     */
+    public function add_humanproperty(property:human.Property):Bool
+    {
+        // check if already in
+        var found:Int = human_properties.indexOf(property);
+
+        if(found != -1)
+        {
+            return false;
+        }
+        else
+        {
+            human_properties.push(property);
+            return true;
+        }
+    }
+
+    public function remove_humanproperty(property:human.Property):Bool
+    {
+        // check if already in
+        var found:Int = human_properties.indexOf(property);
+
+        if(found != -1)
+        {
+            human_properties.splice(found, 1);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     override function init()
     {
 
+        super.init();
+
         persona = new Map<Persona, Dynamic>();
 
-        add(new human.Thirst());
-        add(new human.Hunger());
-        add(new human.Intoxication());
+        add_humanproperty(new human.Thirst());
+        add_humanproperty(new human.Hunger());
+        add_humanproperty(new human.Intoxication());
 
 
         add(new components.AIController({name: 'controller'}));
@@ -82,15 +125,13 @@ class Human extends Actor
         // Debugging
 
         add(new components.HumanVisualSelector({bounds: new Rectangle(0,0,width, height)}));
-
-
     }
 
-    override function update(dt:Float)
+    override public function step(dt:Float)
     {
-        super.update(dt);
-        
+        super.step(dt);
 
+        stepComponents(dt, property);
     }
 
 }

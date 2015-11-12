@@ -1,16 +1,15 @@
 package ;
 
+import FixedComponent.FixedComponentType;
 import luxe.options.VisualOptions;
 import luxe.Visual;
 import luxe.Color;
 import luxe.Vector;
-import components.Mover;
 
 using utils.VectorUtil;
 
 class Actor extends Visual
 {
-
 
         // Direction-aware velocity
     public var velocity         :Vector;
@@ -29,8 +28,8 @@ class Actor extends Visual
     public var realPos          :Vector;
 
 
-        // Stores components of mover type
-    @:isVar public var movers (default, null):Array<Mover>;
+        // Stores components of Fixed components
+    @:isVar public var fixed_components (default, null):Array<FixedComponent>;
 
     // move geometry by z position
     var _zoffset:Vector;
@@ -44,7 +43,7 @@ class Actor extends Visual
 
         super(_options);
 
-        movers = new Array<Mover>();
+        fixed_components = new Array<FixedComponent>();
 
         _zoffset        = new Vector();
         _current_geom   = new Vector();
@@ -63,10 +62,14 @@ class Actor extends Visual
         // lastPos.copy_from(realPos);
 
         _lowest = verticesGetBottomVector(geometry.vertices);
+
+        Main.physics.add(this);
     }
 
     override function ondestroy():Void
     {
+        Main.physics.remove(this);
+
         realPos = null;
         _zoffset = null;
         _current_geom = null;
@@ -100,8 +103,9 @@ class Actor extends Visual
 
         // Luxe.events.fire('hud.physics.add', {s:'Actor.step(${Math.round(dt*10000)/10000})'});
 
-        stepMovers(dt);
-        stepColliders(dt);
+        stepComponents(dt, controller);
+        stepComponents(dt, mover);
+        stepComponents(dt, collider);
 
         velocity.add(force);
         velocity.add(acceleration);
@@ -122,6 +126,10 @@ class Actor extends Visual
 
 
         force.set_xyz(0,0,0);
+
+
+        stepComponents(dt, normal);
+
     }
 
 
@@ -142,57 +150,97 @@ class Actor extends Visual
      * @param id Components ID
      * @return  false if already exists, true if added
      */
-    public function add_mover(mover:Mover):Bool
-    {
-        // check if already in
-        var found:Int = movers.indexOf(mover);
+    // public function add_mover(mover:Mover):Bool
+    // {
+    //     // check if already in
+    //     var found:Int = movers.indexOf(mover);
 
-        if(found != -1)
-        {
-            return false;
+    //     if(found != -1)
+    //     {
+    //         return false;
+    //     }
+    //     else
+    //     {
+    //         movers.push(mover);
+    //         return true;
+    //     }
+    // }
+
+    // public function remove_mover(mover:Mover):Bool
+    // {
+    //     // check if already in
+    //     var found:Int = movers.indexOf(mover);
+
+    //     if(found != -1)
+    //     {
+    //         movers.splice(found, 1);
+    //         return true;
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    // }
+
+
+    // Step all time fixed components by type
+    public function stepComponents(dt:Float, ?type:FixedComponentType)
+    {
+        if( type == null ){
+            type = FixedComponentType.normal;
         }
-        else
+
+        var _fcomp:FixedComponent;
+        for(_comp in this.components)
         {
-            movers.push(mover);
-            return true;
+            _fcomp = cast( _comp, FixedComponent );
+            if( _fcomp != null )
+            {
+                // Check for type
+                if(_fcomp.type == type){
+                    _fcomp.step(dt);
+                }
+            }
         }
     }
 
-    public function remove_mover(mover:Mover):Bool
+    // Get all time fixed components or of given type
+    public function getComponents(?type:FixedComponentType):Array<FixedComponent>
     {
-        // check if already in
-        var found:Int = movers.indexOf(mover);
+        var _fcomp:FixedComponent;
+        var _fcomps:Array<FixedComponent> = new Array<FixedComponent>();
 
-        if(found != -1)
+        for(_comp in this.components)
         {
-            movers.splice(found, 1);
-            return true;
+            _fcomp = cast( _comp, FixedComponent );
+            if( _fcomp != null )
+            {
+                // Check for type
+                if(_fcomp.type == type && type != null || type == null){
+                    _fcomps.push(_fcomp);
+                }
+            }
         }
-        else
-        {
-            return false;
-        }
+
+        return _fcomps;
     }
 
 
+    // function stepMovers(dt:Float)
+    // {
+    //     for(_mover in movers)
+    //     {
+    //         _mover.step(dt);
+    //     }
+    // }
 
-
-
-    function stepMovers(dt:Float)
-    {
-        for(_mover in movers)
-        {
-            _mover.step(dt);
-        }
-    }
-
-    function stepColliders(dt:Float)
-    {
-        if(has('collider'))
-        {
-            get('collider').step(dt);
-        }
-    }
+    // function stepColliders(dt:Float)
+    // {
+    //     if(has('collider'))
+    //     {
+    //         get('collider').step(dt);
+    //     }
+    // }
 
 
 

@@ -1,10 +1,11 @@
 package components;
 
 import luxe.Input;
+import luxe.options.ComponentOptions;
 import luxe.Vector;
 
 
-class InputAI extends Component
+class InputAI extends FixedComponent
 {
 
     @:isVar public var up       (default, null):Bool;
@@ -39,7 +40,7 @@ class InputAI extends Component
 
     }
 
-    override function update(dt:Float):Void
+    override public function step(dt:Float):Void
     {
         if(forcedAngle == -1) {
             updateKeys();

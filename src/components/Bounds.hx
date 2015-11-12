@@ -4,7 +4,7 @@ import luxe.Vector;
 import luxe.Rectangle;
 import luxe.options.ComponentOptions;
 
-class Bounds extends Component
+class Bounds extends FixedComponent
 {
     
     public var bounds:Rectangle;
@@ -13,14 +13,15 @@ class Bounds extends Component
     {
         super({name:'bounds'});
 
+        type = collider;
+
         bounds = _options.bounds;
     }
 
     /**
      * Limit actor's location to bounds
      */
-    // TODO: Separate component
-    override public function update(dt:Float)
+    override public function step(dt:Float)
     {
         if(bounds != null){
             if(actor.realPos.x > bounds.w){

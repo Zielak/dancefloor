@@ -1,21 +1,37 @@
 
+import luxe.Color;
 import luxe.Input;
 import luxe.Rectangle;
 import luxe.utils.Maths;
 import luxe.utils.Random;
+import luxe.Text;
 
 class Main extends luxe.Game {
 
     public static var physics:Physics;
     public static var random:Random;
 
+    public var humanVisual:HumanVisual;
+
+    var tips_txt:Text;
+
     override function ready() {
 
         physics = Luxe.physics.add_engine(Physics);
-
         random = new Random(1);
 
+        humanVisual = new HumanVisual();
+
         spawn_people();
+
+        tips_txt = new Text({
+            bounds: new Rectangle(10, Luxe.screen.h-20, Luxe.screen.w, 20),
+            point_size: 12,
+            color: new Color().rgb(0x666666),
+            text: '[Click] inspect human, [P] pause, [O] step one frame',
+        });
+
+        physics.paused = false;
 
     } //ready
 
@@ -23,6 +39,13 @@ class Main extends luxe.Game {
 
         if(e.keycode == Key.escape) {
             Luxe.shutdown();
+        }
+
+        if(e.keycode == Key.key_p) {
+            physics.pause();
+        }
+        if(e.keycode == Key.key_o) {
+            physics.forceStep();
         }
 
     } //onkeyup
@@ -63,7 +86,7 @@ class Main extends luxe.Game {
             )})
         );
 
-        HumanVisual.watch(guy);
+        Luxe.events.fire( 'HumanVisual.watch', {human: guy} );
     }    
 
 } //Main

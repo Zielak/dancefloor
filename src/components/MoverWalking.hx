@@ -2,7 +2,7 @@ package components;
 
 import luxe.options.ComponentOptions;
 
-class MoverWalking extends Mover{
+class MoverWalking extends FixedComponent{
 
         // speeds
     public var maxWalkSpeed:Float = 110;
@@ -15,6 +15,8 @@ class MoverWalking extends Mover{
     override public function new(?_options:MoverWalkingOptions)
     {
         super(_options);
+
+        type = mover;
 
         if(_options.maxWalkSpeed != null){
             maxWalkSpeed = _options.maxWalkSpeed;

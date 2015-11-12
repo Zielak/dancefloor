@@ -5,6 +5,7 @@ import hxbt.BehaviorTree;
 import hxbt.Composite;
 import luxe.Camera;
 import luxe.Color;
+import luxe.Entity;
 import luxe.options.TextOptions;
 import luxe.options.VisualOptions;
 import luxe.Rectangle;
@@ -13,13 +14,13 @@ import luxe.Vector;
 import luxe.Visual;
 import phoenix.Batcher;
 
-class HumanVisual
+class HumanVisual extends Entity
 {
 
     public static inline var C_BG:Int = 0x000000;
     public static inline var C_TEXT:Int = 0xAAAAAA;
 
-    public static inline var POINT_SIZE:Float = 10;
+    public static inline var POINT_SIZE:Float = 14;
 
     public static inline var TEXT_W:Float = 150;
     public static inline var TEXT_H:Float = 14;
@@ -27,20 +28,20 @@ class HumanVisual
     public static inline var PADDING:Float = 3;
 
     // obserwed human
-    static var guy:Human;
+    var guy:Human;
 
-    static var batcher:Batcher;
-    static var camera:Camera;
+    var batcher:Batcher;
+    var camera:Camera;
 
-    static var text:Text;
-    static var string:String;
+    var text:Text;
+    var string:String;
 
-    static var fields:Array<HVField>;
-    static var bg:Visual;
+    var fields:Array<HVField>;
+    var bg:Visual;
 
-    static var inited:Bool = false;
+    var indicator:Visual;
 
-    public static function init()
+    override public function init()
     {
         inited = true;
 
@@ -58,19 +59,32 @@ class HumanVisual
         //     batcher: batcher,
         // });
 
+        indicator = new Visual({
+            pos: new Vector(0,0),
+            geometry: Luxe.draw.ngon({
+                sides: 3, r: 7,
+                angle: 60,
+                x:0, y:-25,
+                solid: true,
+            }),
+            color: new Color(1,0.2,0),
+        });
+
         text = new Text({
             bounds: new Rectangle(PADDING, PADDING, TEXT_W - PADDING*2, TEXT_H - PADDING*2),
             point_size: POINT_SIZE,
             color: new Color().rgb(C_TEXT),
             batcher: batcher,
-            text: 'Loading',
+            text: 'HumanVisual',
+        });
+
+        Luxe.events.listen('HumanVisual.watch', function(e:HumanVisualEvent){
+            watch(e.human);
         });
     }
 
-    public static function watch(_guy:Human)
+    function watch(_guy:Human)
     {
-        if(!inited) init();
-
         guy = cast _guy;
         fields = new Array<HVField>();
 
@@ -118,7 +132,14 @@ class HumanVisual
         }, true);
     }
 
-    static function refresh()
+    override function update(dt:Float)
+    {
+        if(guy != null){
+            indicator.pos.copy_from( guy.pos.clone() );
+        }
+    }
+
+    function refresh()
     {
         string = "";
 
@@ -155,4 +176,8 @@ class HVField
 typedef HVTextFieldOptions = {
     var label:String;
     var value:Void->String;
+}
+
+typedef HumanVisualEvent = {
+    var human:Human;
 }

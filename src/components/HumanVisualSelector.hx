@@ -4,7 +4,7 @@ import luxe.Input;
 import luxe.options.ComponentOptions;
 import luxe.Rectangle;
 
-class HumanVisualSelector extends Component
+class HumanVisualSelector extends FixedComponent
 {
     
     var bounds:Rectangle;
@@ -21,7 +21,7 @@ class HumanVisualSelector extends Component
     {
         if( bounds.point_inside(e.pos) )
         {
-            HumanVisual.watch( cast(actor, Human) );
+            Luxe.events.fire('HumanVisual.watch', {human: cast(actor, Human)} );
         }
     }
 

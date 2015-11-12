@@ -1,14 +1,13 @@
 package human;
 
+import human.Property;
 import luxe.options.ComponentOptions;
 import luxe.utils.Maths;
 
 using utils.FloatUtil;
 
-class Hunger extends Component
+class Hunger extends Property
 {
-
-    @:isVar public var value(default, null):Float;
 
     override public function new()
     {
@@ -29,7 +28,7 @@ class Hunger extends Component
         value = Main.random.float(0, 0.1);
     }
 
-    override function update(dt:Float)
+    override public function step(dt:Float)
     {
 
         value += dt * 0.001;

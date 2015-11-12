@@ -3,7 +3,7 @@ package components;
 import luxe.Color;
 import luxe.utils.Maths;
 
-class Appearance extends Component
+class Appearance extends FixedComponent
 {
 
     var colors:Array<Color>;

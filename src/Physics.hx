@@ -16,13 +16,10 @@ class Physics extends PhysicsEngine
 
     var delayedActions:Array<Void->Void>;
 
-    var lastTime:Float = 0;
-    var trueDelta:Float = 0;
-    var difference:Float = 0;
-
-    // how many steps behind are we right now?
-    // compensate for the loss when lagging.
-    var steps:Int = 0;
+    var currentTime:Float = 0;
+    var newTime:Float = 0;
+    var frameTime:Float = 0;
+    var accumulator:Float = 0;
 
     var test:Float = 0;
     // Negative or positive?
@@ -45,44 +42,27 @@ class Physics extends PhysicsEngine
 
 
         //update the actual physics
-    public override function update() {
+    public override function update()
+    {
 
         super.update();
 
-        if(!paused) {
 
-            trueDelta = Luxe.core.current_time - lastTime;
-            lastTime = Luxe.core.current_time;
-            difference = trueDelta - Luxe.physics.step_delta * Luxe.timescale;
+        newTime = Luxe.core.current_time;
+        frameTime = newTime - currentTime;
+        currentTime = newTime;
 
-
-            steps = 1;
-            test = (lastDifferencePositive) ? 0 : Luxe.physics.step_delta;
-            while(difference > test){
-                steps++;
-                difference -= Luxe.physics.step_delta;
-            }
-            lastDifferencePositive = !lastDifferencePositive;
-
-            if(delayedActions.length > 0)
-            {
-                for(_func in delayedActions)
-                {
-                    _func();
-                }
-                delayedActions = new Array<Void->Void>();
-            }
-            
-            // Update ALL THE ACTORS!
-            for(i in 0...steps)
-            {
-                for(_actor in actors)
-                {
-                    _actor.step(Luxe.physics.step_delta * Luxe.timescale);
-                }
-            }
-
-        } //paused
+        accumulator += frameTime;
+        
+        
+        if(paused) return;
+        
+        // Update ALL THE ACTORS!
+        while ( accumulator >= Luxe.physics.step_delta )
+        {
+            step( Luxe.physics.step_delta );
+            accumulator -= Luxe.physics.step_delta;
+        }
 
     } //update
 
@@ -91,6 +71,28 @@ class Physics extends PhysicsEngine
         actors = null;
 
     } //destroy
+
+
+    public function pause()
+    {
+        
+        if(paused)
+        {
+            accumulator = 0;
+            paused = false;
+        }
+        else
+        {
+            paused = true;
+        }
+
+    } // pause
+
+    public function forceStep()
+    {
+        accumulator = 0;
+        step( Luxe.physics.step_delta );
+    }
 
 
         // Add an actor to the process
@@ -116,7 +118,7 @@ class Physics extends PhysicsEngine
     public function remove( _actor:Actor )
     {
         // Remove only if actor currently has only 1 component
-        if(_actor.movers.length <= 1)
+        if(_actor.getComponents().length <= 1)
         {
             actors.remove(_actor);
         }
@@ -128,5 +130,21 @@ class Physics extends PhysicsEngine
     {
         delayedActions.push(_function);
     }
+
+
+
+
+
+    function step(dt:Float)
+    {
+
+        for(_actor in actors){
+            _actor.step(dt);
+        }
+
+    }
+
+
+
 }
 

@@ -4,16 +4,17 @@ import components.InputAI;
 import hxbt.BehaviorTree;
 import hxbt.composites.Sequence;
 
-class AIController extends Component
+class AIController extends FixedComponent
 {
 
     var m_tree:BehaviorTree;
 
     var seq:Sequence;
 
-
     override function init()
     {
+        type = controller;
+
         m_tree = new BehaviorTree();
 
         seq = new Sequence();
@@ -31,9 +32,11 @@ class AIController extends Component
     {
         m_tree = null;
         seq = null;
+
+        super.onremoved();
     }
 
-    override function update(dt : Float)
+    override public function step(dt : Float)
     {
         m_tree.update(dt);
     }

@@ -1,10 +1,11 @@
 package components;
 
 import luxe.Color;
+import luxe.options.ComponentOptions;
 import luxe.utils.Maths;
 import phoenix.geometry.Vertex;
 
-class Dance extends Component
+class Dance extends FixedComponent
 {
 
     var speed:Float = 10;
@@ -41,7 +42,7 @@ class Dance extends Component
         }
     }
 
-    override function update(dt:Float)
+    override public function step(dt:Float)
     {
         t += dt;
 
