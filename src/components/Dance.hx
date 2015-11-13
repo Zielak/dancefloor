@@ -7,8 +7,9 @@ import phoenix.geometry.Vertex;
 
 class Dance extends FixedComponent
 {
+    var dance_type:Int;
 
-    var speed:Float = 10;
+    var speed:Float;
     var mag_x:Float = 4;
     var mag_y:Float = 4;
 
@@ -23,6 +24,13 @@ class Dance extends FixedComponent
     override function onadded()
     {
         super.onadded();
+
+        // Match my moves when you start dancing
+        // TODO: offset
+        speed = 1/Luxe.physics.step_delta * 60 / Main.BPM / 4; // 4 bangers
+        // ^- http://www.peachpit.com/articles/article.aspx?p=22799
+
+        dance_type = Main.random.int(3);
 
         verts = new Array();
         move_v = [0,1,4];
@@ -46,8 +54,18 @@ class Dance extends FixedComponent
     {
         t += dt;
 
-        tx = Math.sin(t*speed) * mag_x;
-        ty = Math.sin(t*(speed*2)) * mag_y;
+        switch (dance_type) {
+            case 0:
+                tx = Math.sin(t*speed) * mag_x;
+                ty = Math.sin(t*(speed*2)) * mag_y;
+            case 1:
+                tx = mag_x/2;
+                ty = Math.sin(t*speed*2) * mag_y;
+            case 2:
+                tx = Math.sin(t*speed*2) * mag_x;
+                ty = mag_y/2;
+
+        }
 
         update_vertices();
     }

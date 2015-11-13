@@ -22,7 +22,7 @@ class AIController extends FixedComponent
 
         root = new Sequence();
         root.add(new behaviors.MoveInRandomDirection({time: 1, randomizeTime: 1}));
-        root.add(new behaviors.Dance({time: 2, randomizeTime: 1}));
+        root.add(new behaviors.Dance({time: 5, randomizeTime: 1.5}));
         root.add(new behaviors.Wait({time: 0.5, randomizeTime: 0.5}));
 
 
@@ -55,7 +55,7 @@ class AIController extends FixedComponent
 // Testing nested sequence
         var seq1 = new Sequence();
         seq1.add(new behaviors.Wait({time: 0.5, randomizeTime: 0.5}));
-        seq1.add(new behaviors.Dance({time: 2, randomizeTime: 1}));
+        seq1.add(new behaviors.Dance({time: 5, randomizeTime: 1.5}));
 
         root.add(seq1);
 

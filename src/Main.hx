@@ -20,6 +20,9 @@ class Main extends luxe.Game {
     public var btVisual:BTVisual;
 
 
+    public static var BPM:Int = 128;
+
+
 
     var tips_txt:Text;
 
